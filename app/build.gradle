@@ -5,20 +5,20 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-
     //为了解决部分第三方库重复打包了META-INF的问题
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-    lintOptions {
-        abortOnError false
+
+    dataBinding{
+        enabled true
     }
 
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.sagetripp.sixpack"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -29,27 +29,43 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            jniDebuggable true
+            renderscriptDebuggable true
+        }
+    }
+    buildToolsVersion '27.0.3'
+    dexOptions {
+        incremental true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    // LeanCloud 基础包
-    implementation ('cn.leancloud.android:avoscloud-sdk:v4.6.4')
-    // 推送与实时聊天需要的包
-    implementation ('cn.leancloud.android:avoscloud-push:v4.6.4@aar'){transitive = true}
-    // LeanCloud 统计包
-    implementation ('cn.leancloud.android:avoscloud-statistics:v4.6.4')
-    // LeanCloud 用户反馈包
-    implementation ('cn.leancloud.android:avoscloud-feedback:v4.6.4@aar')
-    // avoscloud-sns：LeanCloud 第三方登录包
-    implementation ('cn.leancloud.android:avoscloud-sns:v4.6.4@aar')
-    implementation ('cn.leancloud.android:qq-sdk:1.6.1-leancloud')
-
+    //    // LeanCloud 基础包
+    //    implementation ('cn.leancloud.android:avoscloud-sdk:v4.6.4')
+    //    // 推送与实时聊天需要的包
+    //    implementation ('cn.leancloud.android:avoscloud-push:v4.6.4@aar'){transitive = true}
+    //    // LeanCloud 统计包
+    //    implementation ('cn.leancloud.android:avoscloud-statistics:v4.6.4')
+    //    // LeanCloud 用户反馈包
+    //    implementation ('cn.leancloud.android:avoscloud-feedback:v4.6.4@aar')
+    //    // avoscloud-sns：LeanCloud 第三方登录包
+    //    implementation ('cn.leancloud.android:avoscloud-sns:v4.6.4@aar')
+    //    implementation ('cn.leancloud.android:qq-sdk:1.6.1-leancloud')
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
 }
